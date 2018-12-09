@@ -40,6 +40,52 @@ namespace Chess
 			type = t;
 			HasMoved = false;
 		}
+
+		friend std::ostream& operator<< (std::ostream& os, const Piece p)
+		{
+			std::string color = "";
+			switch (p.color)
+			{
+			case PieceColor::Black:
+				color = "B";
+				break;
+			case PieceColor::White:
+				color = "W";
+			default:
+				break;
+			}
+
+			std::string type = "";
+			switch (p.type)
+			{
+			case PieceType::Empty:
+				type = "E";
+				break;
+			case PieceType::Pawn:
+				type = "P";
+				break;
+			case PieceType::Rook:
+				type = "R";
+				break;
+			case PieceType::Knight:
+				type = "N";
+				break;
+			case PieceType::Bishop:
+				type = "B";
+				break;
+			case PieceType::Queen:
+				type = "Q";
+				break;
+			case PieceType::King:
+				type = "K";
+				break;
+
+			default:
+				break;
+			}
+			os << color << type << "\t";
+			return os;
+		}
 	};
 
 	struct Point
