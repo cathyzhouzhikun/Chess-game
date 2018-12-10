@@ -14,7 +14,7 @@ namespace Chess
 		void initializeGame();
 		Board getBoard();
 		void setBoard(Board b);
-		
+		Validity move(Point from, Point to, Piece p);
 		
 		
 

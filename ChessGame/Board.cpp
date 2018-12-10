@@ -88,8 +88,8 @@ bool Board::PieceHasMoved(Point p)
 
 void Board::MakeMove(Point from, Point to, Piece p)
 {
-	BoardLocation bFrom((Col)from.x, (Row)from.y);
-	BoardLocation bTo((Col)to.x, (Row)to.y);
+	BoardLocation bFrom((Col)from.y, (Row)from.x);
+	BoardLocation bTo((Col)to.y, (Row)to.x);
 	MakeMove(bFrom, bTo, p);
 }
 
@@ -128,7 +128,7 @@ bool Board::CheckForCheck(PieceColor color)
 	{
 		for (int j = 0; j < BoardColumns; j++)
 		{
-			std::cout << BoardState[i][j] << "  ";
+			//std::cout << BoardState[i][j] << "  ";
 			if (BoardState[i][j].color == OppositeColor(color))
 			{
 				Point from(i, j);
@@ -137,7 +137,6 @@ bool Board::CheckForCheck(PieceColor color)
 			}
 		}
 	}
-	std::cout << " pass check for check\n ";
 	return false;
 }
 
@@ -171,8 +170,8 @@ Validity Board::ValidateMove(Point from, Point to)
 		return Validity(false, v.reason);
 
 	// Check to see if move puts king in check
-	if (CheckForCheck(getTurn()))
-		return Validity(false, "Move puts or keeps your king in check");
+	//if (CheckForCheck(getTurn()))
+	//	return Validity(false, "Move puts or keeps your king in check");
 
 	// if the move is valid, change the turn to the other side
 	if (getTurn() == PieceColor::Black)
@@ -326,10 +325,10 @@ Validity Board::MovePossible(Point from, Point to)
 			return Validity(false, "Bishop can only diagnonally over unobstructed spaces.");
 		break;
 	case PieceType::Queen:
-		if (ReachableAndClear90(from, to) || ReachableAndClear45(from, to))
+		if (ReachableAndClear90(from, to))
 			break;
-		else
-			return Validity(false, "Queen can only move diagonally, vertically or horizontally over unobstructed spaces.");
+	    if (!ReachableAndClear45(from, to))
+		    return Validity(false, "Queen can only move diagonally, vertically or horizontally over unobstructed spaces.");
 		break;
 	case PieceType::King:
 		// need to handle castling possiblility
